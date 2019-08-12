@@ -11,9 +11,9 @@
 
     <div class="container-fluid">
         <div class="header">
-            <a class="btn btn-primary waves-effect" href="{{route('admin.category.create')}}">
+            <a class="btn btn-primary waves-effect" href="{{route('admin.post.create')}}">
                 <i class="material-icons">add</i>
-                <span>Добавить новую категорию</span></a>
+                <span>Добавить новую статьи</span></a>
         </div>
 
 
@@ -24,7 +24,7 @@
             <div class="card">
                 <div class="header">
                     <h2>
-                        ВСЕ КАТЕГОРИИ
+                        ВСЕ СТАТЬИ
                     </h2>
                     <ul class="header-dropdown m-r--5">
                         <li class="dropdown">
@@ -46,7 +46,12 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Название</th>
+                                <th>Заголовок</th>
+                                <th>Тело</th>
+                                <th>Автор</th>
+                                <td><i class="material-icons">visibility</i></td>
+                                <th>Статус</th>
+                                <th>Проверен</th>
                                 <th>Создан</th>
                                 <th>Обнавлен</th>
                                 <th> Упровление</th>
@@ -55,18 +60,39 @@
                             <tfoot>
                             <tr>
                                 <th>ID</th>
-                                <th>Название</th>
+                                <th>Заголовок</th>
+                                <th>Тело</th>
+                                <th>Автор</th>
+                                <td><i class="material-icons">visibility</i></td>
+                                <th>Статус</th>
+                                <th>Проверен</th>
                                 <th>Создан</th>
                                 <th>Обнавлен</th>
+                                <th> Упровление</th>
                             </tr>
                             </tfoot>
                             <tbody>
-                            @foreach($categories as $key=>$category)
+                            @foreach($posts as $key=>$post)
                                 <tr>
                                     <td>{{$key+1}}</td>
-                                    <td>{{$category->name}}</td>
-                                    <td>{{$category->created_at}}</td>
-                                    <td>{{$category->updated_at}}</td>
+                                    <td>{{$post->title}}</td>
+                                    <td>{{$post->body}}</td>
+                                    <td>{{$post->user->name}}</td>
+                                    <td>{{$post->view_count}}</td>
+                                    <td>@if($post->status)
+                                            <span class="badge bg-blue">Опубликовано</span>
+                                        @else
+                                            <span class="badge bg-pink">Ожидает</span>
+                                        @endif
+                                    </td>
+                                    <td>@if($post->is_approved)
+                                            <span class="badge bg-blue">Проверен</span>
+                                        @else
+                                            <span class="badge bg-pink">Ожидает</span>
+                                        @endif
+                                    </td>
+                                    <td>{{$post->created_at}}</td>
+                                    <td>{{$post->updated_at}}</td>
                                     <td class="text-center">
                                         <a href="{{route('admin.category.edit',$category->id)}}"
                                            class="btn btn-info waves-effect">
@@ -110,47 +136,47 @@
     <script src="{{asset('assets/backend/js/pages/tables/jquery-datatable.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <script type="text/javascript">
-		function deleteCategory(id) {
+        function deleteCategory(id) {
 
-			const swalWithBootstrapButtons = Swal.mixin({
-				customClass: {
-					confirmButton: 'btn btn-success',
-					cancelButton: 'btn btn-danger'
-				},
-				buttonsStyling: false,
-			})
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false,
+            })
 
-			swalWithBootstrapButtons.fire({
-				title: 'Вы согласны?',
-				text: "Удалить данный тег из базы!",
-				type: 'warning',
-				showCancelButton: true,
-				confirmButtonText: 'Да,удалить данную запись!',
-				cancelButtonText: 'Нет,отменить!',
-				reverseButtons: true
-			}).then((result) => {
-				if (result.value) {
+            swalWithBootstrapButtons.fire({
+                title: 'Вы согласны?',
+                text: "Удалить данный тег из базы!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Да,удалить данную запись!',
+                cancelButtonText: 'Нет,отменить!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
 
 
-					swalWithBootstrapButtons.fire(
-						'Удалено!',
-						'Запись успешно удалена.',
-						'success'
-					)
-					event.preventDefault();
-					document.getElementById('delete-form-'+ id).submit();
+                    swalWithBootstrapButtons.fire(
+                        'Удалено!',
+                        'Запись успешно удалена.',
+                        'success'
+                    )
+                    event.preventDefault();
+                    document.getElementById('delete-form-' + id).submit();
 
-				} else if (
-					// Read more about handling dismissals
-					result.dismiss === Swal.DismissReason.cancel
-				) {
-					swalWithBootstrapButtons.fire(
-						'Отменино',
-						'Удаление отменино',
-						'error'
-					)
-				}
-			})
-		}
+                } else if (
+                    // Read more about handling dismissals
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        'Отменино',
+                        'Удаление отменино',
+                        'error'
+                    )
+                }
+            })
+        }
     </script>
 @endpush

@@ -53,6 +53,12 @@
                         <span>Категории</span>
                     </a>
                 </li>
+                <li class="{{Request::is('admin/post')? 'active': ''}}">
+                    <a href="{{route('admin.post.index')}}">
+                        <i class="material-icons">library_books</i>
+                        <span>Статьи</span>
+                    </a>
+                </li>
             @endif
             @if(Request::is('author*'))
 
