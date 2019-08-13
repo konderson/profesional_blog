@@ -47,6 +47,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Название</th>
+                                <td>Количество статей</td>
                                 <th>Создан</th>
                                 <th>Обнавлен</th>
                                 <th> Упровление</th>
@@ -56,6 +57,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Название</th>
+                                <td>Количество статей</td>
                                 <th>Создан</th>
                                 <th>Обнавлен</th>
                             </tr>
@@ -65,6 +67,7 @@
                                 <tr>
                                     <td>{{$key+1}}</td>
                                     <td>{{$tag->name}}</td>
+                                    <td>{{$tag->posts->count()}}</td>
                                     <td>{{$tag->created_at}}</td>
                                     <td>{{$tag->updated_at}}</td>
                                     <td class="text-center">

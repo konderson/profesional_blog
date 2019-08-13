@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Post;
-use Illuminate\Http\Request;
+use App\Category;
 use App\Http\Controllers\Controller;
+use App\Post;
+use App\Tag;
+use Brian2694\Toastr\Facades\Toastr;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class PostController extends Controller
 {
@@ -16,7 +23,7 @@ class PostController extends Controller
     public function index()
     {
         $posts=Post::latest()->get();
-        return view('admin.category.index',compact('posts'));
+        return view('admin.post.index', compact('posts'));
     }
 
     /**
@@ -26,7 +33,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('admin.post.create', compact('categories', 'tags'));
     }
 
     /**
@@ -37,7 +46,55 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'image' => 'required',
+            'categories' => 'required',
+            'tags' => 'required',
+            'body' => 'required',
+
+        ]);
+        $image = $request->file('image');
+        $slug = str_slug($request->title);
+        if (isset($image)) {
+
+            //уникальное имя для изображения
+            $currentData = Carbon::now()->toDateString();
+            $imagename = $slug . '-' . $currentData . '-' . uniqid() . '-' . $image->getClientOriginalName();
+
+            //проверка директории
+            if (!Storage::disk('public')->exists('post')) {
+
+                Storage::disk('public')->makeDirectory('post');
+            }
+            //resize image
+            $postImg = Image::make($image)->resize(1600, 1066)->save($imagename, 90);
+            Storage::disk('public')->put('post/' . $imagename, $postImg);
+
+        } else {
+            $imagename = "default.png";
+        }
+
+        $post = new Post();
+        $post->title = $request->title;
+        $post->user_id = Auth::id();
+        $post->body = $request->body;
+        $post->slug = $slug;
+        $post->image = $imagename;
+        if (isset($request->status)) {
+            $post->status = true;
+        } else {
+            $post->status = false;
+        }
+        $post->is_approved = true;
+        $post->save();
+        $post->categories()->attach($request->categories);
+        $post->tags()->attach($request->tags);
+
+        Toastr::success("Новая статья успешно создана", 'Успех');
+
+        return redirect()->route('admin.post.index');
+
     }
 
     /**
@@ -57,9 +114,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('admin.post.edit',compact('tags','categories','post'));
     }
 
     /**

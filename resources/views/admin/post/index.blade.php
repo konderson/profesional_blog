@@ -11,9 +11,9 @@
 
     <div class="container-fluid">
         <div class="header">
-            <a class="btn btn-primary waves-effect" href="{{route('admin.category.create')}}">
+            <a class="btn btn-primary waves-effect" href="{{route('admin.post.create')}}">
                 <i class="material-icons">add</i>
-                <span>Добавить новую категорию</span></a>
+                <span>Добавить новую статьи</span></a>
         </div>
 
 
@@ -24,7 +24,8 @@
             <div class="card">
                 <div class="header">
                     <h2>
-                        ВСЕ КАТЕГОРИИ
+                        ВСЕ СТАТЬИ
+                        <span class="badge bg-blue">{{$posts->count()}}</span>
                     </h2>
                     <ul class="header-dropdown m-r--5">
                         <li class="dropdown">
@@ -46,7 +47,12 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Название</th>
+                                <th>Заголовок</th>
+                                <th>Тело</th>
+                                <th>Автор</th>
+                                <td><i class="material-icons">visibility</i></td>
+                                <th>Статус</th>
+                                <th>Проверен</th>
                                 <th>Создан</th>
                                 <th>Обнавлен</th>
                                 <th> Упровление</th>
@@ -55,29 +61,50 @@
                             <tfoot>
                             <tr>
                                 <th>ID</th>
-                                <th>Название</th>
+                                <th>Заголовок</th>
+                                <th>Тело</th>
+                                <th>Автор</th>
+                                <td><i class="material-icons">visibility</i></td>
+                                <th>Статус</th>
+                                <th>Проверен</th>
                                 <th>Создан</th>
                                 <th>Обнавлен</th>
+                                <th> Упровление</th>
                             </tr>
                             </tfoot>
                             <tbody>
-                            @foreach($categories as $key=>$category)
+                            @foreach($posts as $key=>$post)
                                 <tr>
                                     <td>{{$key+1}}</td>
-                                    <td>{{$category->name}}</td>
-                                    <td>{{$category->created_at}}</td>
-                                    <td>{{$category->updated_at}}</td>
+                                    <td>{{str_limit($post->title,10)}}</td>
+                                    <td>{{$post->body}}</td>
+                                    <td>{{$post->user->name}}</td>
+                                    <td>{{$post->view_count}}</td>
+                                    <td>@if($post->status)
+                                            <span class="badge bg-blue">Опубликовано</span>
+                                        @else
+                                            <span class="badge bg-pink">Ожидает</span>
+                                        @endif
+                                    </td>
+                                    <td>@if($post->is_approved)
+                                            <span class="badge bg-blue">Проверен</span>
+                                        @else
+                                            <span class="badge bg-pink">Ожидает</span>
+                                        @endif
+                                    </td>
+                                    <td>{{$post->created_at}}</td>
+                                    <td>{{$post->updated_at}}</td>
                                     <td class="text-center">
-                                        <a href="{{route('admin.category.edit',$category->id)}}"
+                                        <a href="{{route('admin.post.edit',$post->id)}}"
                                            class="btn btn-info waves-effect">
                                             <i class="material-icons">edit</i>
-                                            <span>Изменить</span> </a>
+                                        </a>
                                         <button class="btn btn-danger waves-effect" type="button"
-                                                onclick="deleteCategory({{$category->id}})">
+                                                onclick="deletePost({{$post->id}})">
                                             <i class="material-icons">delete</i>
                                         </button>
-                                        <form id="delete-form-{{$category->id}}"
-                                              action="{{route('admin.category.destroy',$category->id)}}" method="POST"
+                                        <form id="delete-form-{{$post->id}}"
+                                              action="{{route('admin.category.destroy',$post->id)}}" method="POST"
                                               style="display: none">
                                             @csrf
                                             @method('DELETE')
@@ -110,7 +137,7 @@
     <script src="{{asset('assets/backend/js/pages/tables/jquery-datatable.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <script type="text/javascript">
-		function deleteCategory(id) {
+		function deletePost(id) {
 
 			const swalWithBootstrapButtons = Swal.mixin({
 				customClass: {
@@ -122,7 +149,7 @@
 
 			swalWithBootstrapButtons.fire({
 				title: 'Вы согласны?',
-				text: "Удалить данный тег из базы!",
+				text: "Удалить данную статью из базы!",
 				type: 'warning',
 				showCancelButton: true,
 				confirmButtonText: 'Да,удалить данную запись!',
@@ -138,7 +165,7 @@
 						'success'
 					)
 					event.preventDefault();
-					document.getElementById('delete-form-'+ id).submit();
+					document.getElementById('delete-form-' + id).submit();
 
 				} else if (
 					// Read more about handling dismissals
