@@ -48,13 +48,12 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Заголовок</th>
-                                <th>Тело</th>
                                 <th>Автор</th>
                                 <td><i class="material-icons">visibility</i></td>
                                 <th>Статус</th>
                                 <th>Проверен</th>
                                 <th>Создан</th>
-                                <th>Обнавлен</th>
+
                                 <th> Упровление</th>
                             </tr>
                             </thead>
@@ -62,13 +61,12 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Заголовок</th>
-                                <th>Тело</th>
                                 <th>Автор</th>
                                 <td><i class="material-icons">visibility</i></td>
                                 <th>Статус</th>
                                 <th>Проверен</th>
                                 <th>Создан</th>
-                                <th>Обнавлен</th>
+
                                 <th> Упровление</th>
                             </tr>
                             </tfoot>
@@ -77,7 +75,7 @@
                                 <tr>
                                     <td>{{$key+1}}</td>
                                     <td>{{str_limit($post->title,10)}}</td>
-                                    <td>{{$post->body}}</td>
+
                                     <td>{{$post->user->name}}</td>
                                     <td>{{$post->view_count}}</td>
                                     <td>@if($post->status)
@@ -93,8 +91,12 @@
                                         @endif
                                     </td>
                                     <td>{{$post->created_at}}</td>
-                                    <td>{{$post->updated_at}}</td>
+
                                     <td class="text-center">
+                                        <a href="{{route('admin.post.show',$post->id)}}"
+                                           class="btn btn-success waves-effect">
+                                            <i class="material-icons">visibility</i>
+                                        </a>
                                         <a href="{{route('admin.post.edit',$post->id)}}"
                                            class="btn btn-info waves-effect">
                                             <i class="material-icons">edit</i>

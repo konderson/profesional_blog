@@ -103,9 +103,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        //
+
+        return view('admin.post.show',compact('post'));
     }
 
     /**
@@ -129,9 +130,61 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'image' => 'image|mimes:jpeg,bmp,png,jpg',
+            'categories' => 'required',
+            'tags' => 'required',
+            'body' => 'required',
+
+        ]);
+        $image = $request->file('image');
+        $slug = str_slug($request->title);
+        if (isset($image)) {
+
+            //уникальное имя для изображения
+            $currentData = Carbon::now()->toDateString();
+            $imagename = $slug . '-' . $currentData . '-' . uniqid() . '-' . $image->getClientOriginalName();
+
+            //проверка директории
+            if (!Storage::disk('public')->exists('post')) {
+
+                Storage::disk('public')->makeDirectory('post');
+            }
+            //resize image
+            $postImg = Image::make($image)->resize(1600, 1066)->save($imagename, 90);
+            Storage::disk('public')->put('post/' . $imagename, $postImg);
+
+            if (Storage::disk('public')->exists('post/' . $post->image)) {
+                Storage::disk('public')->delete('post/' . $post->image);
+            }
+
+        } else {
+            $imagename = $post->image;
+        }
+
+
+        $post->title = $request->title;
+        $post->user_id = Auth::id();
+        $post->body = $request->body;
+        $post->slug = $slug;
+        $post->image = $imagename;
+        if (isset($request->status)) {
+            $post->status = true;
+        } else {
+            $post->status = false;
+        }
+        $post->is_approved = true;
+        $post->save();
+        $post->categories()->sync($request->categories);
+        $post->tags()->sync($request->tags);
+
+        Toastr::success(" Статья успешно обнавлена", 'Успех');
+
+        return redirect()->route('admin.post.index');
+
     }
 
     /**
