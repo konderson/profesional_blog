@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <p>Please wait...</p>
+        <p>Ожидайте...</p>
     </div>
 </div>
 <!-- #END# Page Loader -->

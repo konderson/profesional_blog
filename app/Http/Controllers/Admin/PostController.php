@@ -193,8 +193,15 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        if (Storage::disk('public')->exists('post/' . $post->image)) {
+            Storage::disk('public')->delete('post/' . $post->image);
+        }
+        $post->categories()->detach();
+        $post->tags()->detach();
+        $post->delete();
+        Toastr::success('Статья удалена с сайта','Успех');
+        return redirect()->route('admin.post.index');
     }
 }

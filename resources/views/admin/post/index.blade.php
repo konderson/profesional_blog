@@ -106,7 +106,7 @@
                                             <i class="material-icons">delete</i>
                                         </button>
                                         <form id="delete-form-{{$post->id}}"
-                                              action="{{route('admin.category.destroy',$post->id)}}" method="POST"
+                                              action="{{route('admin.post.destroy',$post->id)}}" method="POST"
                                               style="display: none">
                                             @csrf
                                             @method('DELETE')
