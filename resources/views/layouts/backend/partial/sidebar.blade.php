@@ -59,21 +59,28 @@
                         <span>Статьи</span>
                     </a>
                 </li>
+                <li class="{{Request::is('author/post')? 'active': ''}}">
+                    <a href="{{route('admin.post.pending')}}">
+                        <i class="material-icons">done</i>
+                        <span>Ожидающие</span>
+                    </a>
+                </li>
             @endif
             @if(Request::is('author*'))
 
-                <li class="{{Request::is('admin/dashboard')? 'active': ''}}">
-                    <a href="{{'admin.dashboard'}}">
+                <li class="{{Request::is('author/dashboard')? 'active': ''}}">
+                    <a href="{{route('author.dashboard')}}">
                         <i class="material-icons">home</i>
                         <span>Главная</span>
                     </a>
                 </li>
-                <li class="{{Request::is('admin/dashboard')? 'active': ''}}">
-                    <a href="{{'admin.dashboard'}}">
-                        <i class="material-icons">home</i>
-                        <span>Главная</span>
+                <li class="{{Request::is('author/post')? 'active': ''}}">
+                    <a href="{{route('author.post.index')}}">
+                        <i class="material-icons">library_books</i>
+                        <span>Статьи</span>
                     </a>
                 </li>
+
             @endif
             <li class="header"> Система</li>
             <a href="{{route('logout')}}" class="dropdown-item "

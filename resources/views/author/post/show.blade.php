@@ -9,24 +9,9 @@
 
 @section('content')
 
-    <a class="btn btn-danger" href="{{route('admin.post.index')}}">Назад</a>
+    <a class="btn btn-danger" href="{{route('author.post.index')}}">Назад</a>
 
-    @if($post->is_approved==false)
-        <button type="button" class="btn btn-success pull-right" onclick="approvePost({{$post->id}})">
-            <i class="material-icons">done</i>
-            <span>Проверено</span>
-        </button>
-        <form method="POST" action="{{route('admin.post.approve',$post->id)}}" id="approval-form" style="display: none">
-            @csrf
-            @method('PUT')
 
-        </form>
-    @else
-        <button type="button" class="btn btn-success pull-right" disabled>
-            <i class="material-icons">done</i>
-            <span>Одобрить</span>
-        </button>
-    @endif
     <!-- Vertical Layout -->
     <div class="row clearfix">
         <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
@@ -40,8 +25,7 @@
 
                 </div>
                 <div class="body">
-
-                    {!!$post->body!!}
+                    {!!html_entity_decode($post->body)!!}
                 </div>
             </div>
         </div>
@@ -99,53 +83,7 @@
 
 @endsection
 @push('js')
+
     <!-- Multi Select Plugin Js -->
     <script src="{{asset('assets/backend/plugins/multi-select/js/jquery.multi-select.js')}}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-
-    <script type="text/javascript">
-	    function approvePost(id) {
-
-		    const swalWithBootstrapButtons = Swal.mixin({
-			    customClass: {
-				    confirmButton: 'btn btn-success',
-				    cancelButton: 'btn btn-danger'
-			    },
-			    buttonsStyling: false,
-		    })
-
-		    swalWithBootstrapButtons.fire({
-			    title: 'Вы согласны?',
-			    text: "Одобрить данную статью!",
-			    type: 'warning',
-			    showCancelButton: true,
-			    confirmButtonText: 'Одобрить!',
-			    cancelButtonText: 'Отклонить!',
-			    reverseButtons: true
-		    }).then((result) => {
-			    if (result.value) {
-
-
-				    swalWithBootstrapButtons.fire(
-					    '',
-					    'Одобрено!',
-					    'success'
-				    )
-				    event.preventDefault();
-				    document.getElementById('approval-form').submit();
-
-			    } else if (
-				    // Read more about handling dismissals
-				    result.dismiss === Swal.DismissReason.cancel
-			    ) {
-				    swalWithBootstrapButtons.fire(
-					    'Отменино',
-					    'Удаление отменино',
-					    'error'
-				    )
-			    }
-		    })
-	    }
-    </script>
-
 @endpush

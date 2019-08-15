@@ -17,7 +17,7 @@
 
     <!-- Styles -->
     <link href="{{asset('assets/frontend/css/bootstrap.css')}}" rel="stylesheet">
-
+    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
 
     <link href="{{asset('assets/frontend/css/swiper.css')}}" rel="stylesheet">
 
@@ -42,9 +42,23 @@
 
 <script src="{{asset('assets/frontend/js/bootstrap.js')}}"></script>
 
-<script src="{{asset('assets/frontend/js/swiper.js')}}"></script>
-
 <script src="{{asset('assets/frontend/js/scripts.js')}}"></script>
+<!-- Toast cdn -->
+<script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+<!-- Toast cdn -->
+
+{!! Toastr::message() !!}
+<script>
+    @if($errors->any())
+    @foreach($errors->all() as  $error)
+	toastr.error('{{$error}}', 'Error', {
+		closeButton: true,
+		progressBar: true,
+	})
+    @endforeach
+
+    @endif
+            </script>
 @stack('js')
 
 </body>
