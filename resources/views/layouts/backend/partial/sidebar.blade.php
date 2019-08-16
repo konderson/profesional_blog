@@ -65,6 +65,12 @@
                         <span>Ожидающие</span>
                     </a>
                 </li>
+                <li class="{{Request::is('author/post')? 'active': ''}}">
+                    <a href="{{route('admin.subscriber.index')}}">
+                        <i class="material-icons">subscriptions</i>
+                        <span>Подписщики</span>
+                    </a>
+                </li>
             @endif
             @if(Request::is('author*'))
 

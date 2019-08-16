@@ -96,7 +96,7 @@
                                         @if($post->is_approved==false)
                                             <button type="button" class="btn btn-success" onclick="approvePost({{$post->id}})">
                                                 <i class="material-icons">done</i>
-                                                <span>Одобрить</span>
+                                                <span></span>
                                             </button>
                                             <form method="POST" action="{{route('admin.post.approve',$post->id)}}" id="approval-form" style="display: none">
                                                 @csrf
@@ -106,7 +106,7 @@
                                         @else
                                             <button type="button" class="btn btn-success " disabled>
                                                 <i class="material-icons">done</i>
-                                                <span>Одобрено</span>
+                                                <span></span>
                                             </button>
                                         @endif
 
