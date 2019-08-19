@@ -86,7 +86,7 @@
 
                 </div>
                 <div class="body">
-                    <img class="img-responsive" src="{{Storage::disk('public')->url('post/'.$post->image)}}"
+                    <img class="img-responsive" src="{{asset('storage/post/'.$post->image)}}"
                          alt="{{$post->title}}">
 
                 </div>

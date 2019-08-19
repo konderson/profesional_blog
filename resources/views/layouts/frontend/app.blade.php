@@ -22,7 +22,7 @@
     <link href="{{asset('assets/frontend/css/swiper.css')}}" rel="stylesheet">
 
     <link href="{{asset('assets/frontend/css/ionicons.css')}}" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.x.x/css/swiper.min.css">
     @stack('css')
 
 
@@ -39,13 +39,13 @@
 <script src="{{asset('assets/frontend/js/jquery-3.1.1.min.js')}}"></script>
 
 <script src="{{asset('assets/frontend/js/tether.min.js')}}"></script>
-
 <script src="{{asset('assets/frontend/js/bootstrap.js')}}"></script>
-
+<script src="{{asset('assets/frontend/js/swiper.js')}}"></script>
 <script src="{{asset('assets/frontend/js/scripts.js')}}"></script>
 <!-- Toast cdn -->
 <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
 <!-- Toast cdn -->
+
 
 {!! Toastr::message() !!}
 <script>
@@ -59,6 +59,7 @@
 
     @endif
             </script>
+
 @stack('js')
 
 </body>

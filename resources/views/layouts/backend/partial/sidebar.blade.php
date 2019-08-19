@@ -59,18 +59,36 @@
                         <span>Статьи</span>
                     </a>
                 </li>
-                <li class="{{Request::is('author/post')? 'active': ''}}">
+                <li class="{{Request::is('admin/pending*')? 'active': ''}}">
                     <a href="{{route('admin.post.pending')}}">
                         <i class="material-icons">done</i>
                         <span>Ожидающие</span>
                     </a>
                 </li>
-                <li class="{{Request::is('author/post')? 'active': ''}}">
+                <li class="{{Request::is('admin/subscriber')? 'active': ''}}">
                     <a href="{{route('admin.subscriber.index')}}">
                         <i class="material-icons">subscriptions</i>
                         <span>Подписщики</span>
                     </a>
                 </li>
+
+                <li class="header"> Система</li>
+                <li class="{{Request::is('admin/settings')? 'active': ''}}">
+                    <a href="{{route('admin.settings')}}">
+                        <i class="material-icons">settings</i>
+                        <span>Настройки</span>
+                    </a>
+                </li>
+
+                <a href="{{route('logout')}}" class="dropdown-item "
+                   onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                    <i class="material-icons">input</i>
+                    <span>Выйти</span>
+                </a>
+                <form id="logout-form" action="{{route('logout')}}" method="POST" style="">
+                    @csrf
+                </form>
+                <li>
             @endif
             @if(Request::is('author*'))
 
@@ -86,20 +104,20 @@
                         <span>Статьи</span>
                     </a>
                 </li>
-
+                <li class="header"> Система</li>
+                <a href="{{route('logout')}}" class="dropdown-item "
+                   onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                    <i class="material-icons">input</i>
+                    <span>Выйти</span>
+                </a>
+                <form id="logout-form" action="{{route('logout')}}" method="POST" style="">
+                    @csrf
+                </form>
+                <li>
             @endif
-            <li class="header"> Система</li>
-            <a href="{{route('logout')}}" class="dropdown-item "
-               onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                <i class="material-icons">input</i>
-                <span>Sign Out</span>
-            </a>
-            <form id="logout-form" action="{{route('logout')}}" method="POST" style="">
-                @csrf
-            </form>
-            <li>
 
-            </li>
+
+                </li>
         </ul>
     </div>
     <!-- #Menu -->
