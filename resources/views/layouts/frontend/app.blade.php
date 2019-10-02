@@ -10,7 +10,7 @@
     <title>  @yield('title')</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+
 
     <!-- Fonts -->
 
@@ -37,7 +37,6 @@
 <!-- SCIPTS -->
 
 <script src="{{asset('assets/frontend/js/jquery-3.1.1.min.js')}}"></script>
-
 <script src="{{asset('assets/frontend/js/tether.min.js')}}"></script>
 <script src="{{asset('assets/frontend/js/bootstrap.js')}}"></script>
 <script src="{{asset('assets/frontend/js/swiper.js')}}"></script>

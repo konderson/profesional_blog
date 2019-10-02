@@ -14,9 +14,9 @@
                 <div class="card">
                     <div class="header">
                         <h2>
-                            НАСТРОЙКА ПРОФАЙЛА
+                            НАСТРОЙКА ПРОФАЙЛА {{Auth::user()->name}}
                         </h2>
-
+                        
                     </div>
                     <div class="body">
                         <!-- Nav tabs -->
@@ -51,7 +51,7 @@
                                             </div>
                                             <div class="body">
 
-                                                <form method="POST" action="{{route('admin.profile.update')}}"
+                                                <form method="POST" action="{{route('author.profile.update')}}"
                                                       class="form-horizontal" enctype="multipart/form-data">
                                                     @method('PUT')
                                                     @csrf
@@ -133,7 +133,7 @@
                                     <div class="tab-pane fade" id="password">
                                         <div class="body">
 
-                                            <form method="POST" action="{{route('admin.password.update')}}"
+                                            <form method="POST" action="{{route('author.password.update')}}"
                                                   class="form-horizontal" enctype="multipart/form-data">
                                                 @method('PUT')
                                                 @csrf

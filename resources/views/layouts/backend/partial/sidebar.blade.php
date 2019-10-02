@@ -2,7 +2,7 @@
     <!-- User Info -->
     <div class="user-info">
         <div class="image">
-            <img src="{{asset('assets/backend/images/user.png')}}" width="48" height="48" alt="User"/>
+            <img src="{{asset('storage/profile/'.Auth::user()->img)}}" width="48" height="48" alt="User"/>
         </div>
         <div class="info-container">
             <div class="name" data-toggle="dropdown" aria-haspopup="true"
@@ -11,13 +11,20 @@
             <div class="btn-group user-helper-dropdown">
                 <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                 <ul class="dropdown-menu pull-right">
-                    <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
+                    <li>
+                        @if(Request::is('admin*'))
+                            <a href="{{route('admin.settings')}}"><i class="material-icons">person</i>Профайл</a>
+                        @else
+                            <a href="{{route('author.settings')}}"><i class="material-icons">person</i>Профайл</a>
+                    </li>
+                    @endif
+                    </li>
                     <li role="separator" class="divider"></li>
 
                     <li>
                         <a href="{{route('logout')}}" class="dropdown-item "
                            onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                            <i class="material-icons">input</i>Sign Out
+                            <i class="material-icons">input</i>Выйти
                         </a>
                         <form id="logout-form" action="{{route('logout')}}" method="POST" style="">
                             @csrf
@@ -71,7 +78,24 @@
                         <span>Подписщики</span>
                     </a>
                 </li>
-
+                <li class="{{Request::is('admin/comments')? 'active': ''}}">
+                    <a href="{{route('admin.comment.index')}}">
+                        <i class="material-icons">comment</i>
+                        <span>Комментарии</span>
+                    </a>
+                </li>
+                <li class="{{Request::is('admin/favorite')? 'active': ''}}">
+                    <a href="{{route('admin.favorite.index')}}">
+                        <i class="material-icons">favorite</i>
+                        <span>Понравившиеся</span>
+                    </a>
+                </li>
+                <li class="{{Request::is('admin/authors')? 'active': ''}}">
+                    <a href="{{route('admin.authors.index')}}">
+                        <i class="material-icons">account_circle</i>
+                        <span>Авторы</span>
+                    </a>
+                </li>
                 <li class="header"> Система</li>
                 <li class="{{Request::is('admin/settings')? 'active': ''}}">
                     <a href="{{route('admin.settings')}}">
@@ -98,6 +122,18 @@
                         <span>Главная</span>
                     </a>
                 </li>
+                <li class="{{Request::is('author/favorite')? 'active': ''}}">
+                    <a href="{{route('author.favorite.index')}}">
+                        <i class="material-icons">favorite</i>
+                        <span>Понравившиеся</span>
+                    </a>
+                </li>
+                <li class="{{Request::is('author/comments')? 'active': ''}}">
+                    <a href="{{route('author.comment.index')}}">
+                        <i class="material-icons">comment</i>
+                        <span>Комментарии</span>
+                    </a>
+                </li>
                 <li class="{{Request::is('author/post')? 'active': ''}}">
                     <a href="{{route('author.post.index')}}">
                         <i class="material-icons">library_books</i>
@@ -105,6 +141,13 @@
                     </a>
                 </li>
                 <li class="header"> Система</li>
+                <li class="{{Request::is('author/settings')? 'active': ''}}">
+                    <a href="{{route('author.settings')}}">
+                        <i class="material-icons">settings</i>
+                        <span>Настройки</span>
+                    </a>
+                </li>
+
                 <a href="{{route('logout')}}" class="dropdown-item "
                    onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                     <i class="material-icons">input</i>
